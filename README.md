@@ -151,4 +151,4 @@ References
 
 13. Boguñá, M., Krioukov, D. & Claffy, K. C. Navigability of complex networks. *Nat. Phys.* **5,** 74–80 (2009).
 
-14. Papadopoulos, F., Krioukov, D., Boguñá, M. & Vahdat, A. Greedy forwarding in dynamic scale-free networks embedded in hyperbolic metric spaces. in *INFOCOM, 2010 proceedings ieee* 1–9 (2010). doi:[10.1109/INFCOM.2010.5462131](https://doi.org/10.1109/INFCOM.2010.5462131)
+14. Papadopoulos, F., Krioukov, D., Boguñá, M. & Vahdat, A. Greedy forwarding in dynamic scale-free networks embedded in hyperbolic metric spaces. in *INFOCOM, 2010 proceedings IEEE* 1–9 (2010).
