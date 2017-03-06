@@ -1,0 +1,20 @@
+Package: NetHypGeom
+Type: Package
+Title: Hyperbolic geometry of complex networks
+Version: 0.9
+Date: 2017-03-03
+Author: Gregorio Alanis-Lobato, Pablo Mier, Miguel A. Andrade-Navarro
+Maintainer: Gregorio Alanis-Lobato <galanisl@uni-mainz.de>
+Description: Tools for the generation, analysis and visualisation of complex networks in hyperbolic space. 
+	It includes the Popularity-Similarity model, a method to grow artifical networks inside a hyperbolic circle,
+	and LaBNE+HM, a method for the fast yet accurate embedding of complex networks into the native representation 
+	of the two-dimensional hyperbolic plane.
+License: MIT + file LICENSE
+Depends: R (>= 3.1), igraph (>= 1.0), ggplot2 (>= 2.2)
+Imports: Rcpp (>= 0.11.3), RSpectra (>= 0.12.0), scales (>= 0.4.1)
+Suggests: knitr, rmarkdown
+LinkingTo: Rcpp
+LazyData: true
+VignetteBuilder: knitr
+BugReports: https://github.com/galanisl/NetHypGeom/issues
+RoxygenNote: 6.0.1
