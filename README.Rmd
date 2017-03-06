@@ -2,7 +2,7 @@
 title: "NetHypGeom"
 author: "Gregorio Alanis-Lobato, Pablo Mier and Miguel A. Andrade-Navarro"
 date: false
-output: html_document
+output: rmarkdown::github_document
 bibliography: "references.bib"
 csl: "nature.csl"
 link-citations: true
