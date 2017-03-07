@@ -72,9 +72,11 @@ labne_hm <- function(net, gma = NA, Temp = 0.1, k.speedup = 10, m.in = NA, L.in 
     radial[sort(degree(params$net), decreasing = T, index.return = T)$ix] <- radial
     polar <- data.frame(id = V(params$net)$name, r = radial, theta = theta)
   }else{
-  # Refine LaBNE-based angles and determine node hyperbolic coordinates with HyperMap
+    # Refine LaBNE-based angles and determine node hyperbolic coordinates with HyperMap
     theta <- data.frame(id = V(params$net)$name, theta = theta)
     polar <- hypermap(as_data_frame(params$net, what = "edges"), params$gma, params$Temp, params$k.speedup, params$m.in, params$L.in, params$w, theta)
+    # Ensure that all angles are in [0, 2pi]
+    polar$theta[polar$theta > 2*pi] <- polar$theta[polar$theta > 2*pi] - 2*pi
     polar$theta[polar$theta < 0] <- polar$theta[polar$theta < 0] + 2*pi
     cart$id <- polar$id
   }
