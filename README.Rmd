@@ -5,7 +5,7 @@ date: false
 output: rmarkdown::github_document
 bibliography: "references.bib"
 csl: "nature.csl"
-link-citations: true
+link-citations: false
 ---
 
 Tools for the generation, analysis and visualisation of complex networks in hyperbolic space.
@@ -96,7 +96,7 @@ targets <- targets + 1
 hop.stretch <- greedy_route_packets(net$network, net$polar, sources, targets)
 
 # Compute the fraction of succesfully delivered packets
-sum(hop.stretch)/st
+sum(hop.stretch > 0)/st
 ```
 
 Finally, let's take advantage of the fact that we know the hyperbolic coordinates of nodes in our artificial network to compare the mapping to hyperbolic space using LaBNE+HM and HyperMap:

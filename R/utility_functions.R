@@ -230,7 +230,7 @@ compare_clustering_to_er <- function(network, epochs = 100, label = "Given netwo
 #' hop.stretch <- greedy_route_packets(net$network, net$polar, sources, targets)
 #' 
 #' # Compute the fraction of succesfully delivered packets
-#' sum(hop.stretch)/st
+#' sum(hop.stretch > 0)/st
 #' 
 #' @export
 #' @import igraph
