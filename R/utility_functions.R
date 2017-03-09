@@ -103,10 +103,10 @@ plot_hyperbolic_nodes <- function(nodes, node.colour){
   # Change node coordinates from polar to cartesian
   nodes.cart <- data.frame(x = nodes$r * cos(nodes$theta), y = nodes$r * sin(nodes$theta), node.colour = node.colour)
   
-  return(ggplot(nodes.cart, aes_(~x, ~y, colour = node.colour), size = 3) + geom_point() + theme_bw() + 
-    theme(axis.title.y = element_blank(), axis.title.x = element_blank(), 
-          axis.text.x = element_blank(), axis.text.y = element_blank(),  
-          axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) + 
+  return(ggplot(nodes.cart, aes_(~x, ~y, colour = node.colour), size = 3) + geom_point() + scale_colour_manual(values = unique(node.colour)) + 
+           theme_bw() + theme(axis.title.y = element_blank(), axis.title.x = element_blank(), 
+                              axis.text.x = element_blank(), axis.text.y = element_blank(),  
+                              axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) + 
     labs(title = "Network in the hyperbolic disc (nodes only)") + guides(colour = F))
 }
 
