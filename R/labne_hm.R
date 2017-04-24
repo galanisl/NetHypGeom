@@ -11,7 +11,7 @@
 #' @param L.in numeric; The internal link formation rate, i.e. the average number of links formed between existing network nodes. If not specified, it is set to L = (kbar-2*m)/2, where kbar is the average node degree of the network.
 #' @param w numeric; The window considered by HyperMap to refine angles found by LaBNE. If not specified, it is set to "auto", which means that w is set to 2*pi*Temp^2.
 #' 
-#' @return List with the two following elements:
+#' @return List with the three following elements:
 #' \item{network}{igraph object representation of the input network.}
 #' \item{polar}{Data frame containing elements \code{r} and \code{theta}, the inferred radial and angular coordinates of the network nodes in hyperbolic space.}
 #' \item{cartesian}{Data frame containing elements \code{x} and \code{y}, the inferred cartesian coordinates of the network nodes in hyperbolic space. It is useful to have these coordinates for the direct visualisation of the embedding using standard plotting function in R.}
