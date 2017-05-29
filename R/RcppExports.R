@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 hypermap <- function(net, gma, T, k_speedup, m_in, L_in, window, theta) {
-    .Call('NetHypGeom_hypermap', PACKAGE = 'NetHypGeom', net, gma, T, k_speedup, m_in, L_in, window, theta)
+    .Call(NetHypGeom_hypermap, net, gma, T, k_speedup, m_in, L_in, window, theta)
 }
 

@@ -34,7 +34,7 @@
 #' plot_hyperbolic_net(network = net$network, 
 #'                     nodes = coords$polar, node.colour = net$polar$theta)
 #' 
-#' @useDynLib NetHypGeom
+#' @useDynLib NetHypGeom, .registration = TRUE
 #' 
 #' @export
 #' @import igraph
