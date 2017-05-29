@@ -114,7 +114,7 @@ check_lhm_parameters <- function(net, gma, Temp, k.speedup, m.in, L.in, w){
     stop("You have to at least specify a network to embed. This can be an igraph object, a data frame or a tab-separated file.")
   }else{
     if(class(net) == "character"){ #The network is a tab-separated file
-      net <- read.table(net, header = F, sep = "\t", quote = "", stringsAsFactors = F)
+      net <- utils::read.table(net, header = F, sep = "\t", quote = "", stringsAsFactors = F)
       if(ncol(net) < 2){
         stop("The specified file must have at least two tab-separated columns.")
       }else{

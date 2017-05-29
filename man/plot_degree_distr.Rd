@@ -2,12 +2,14 @@
 % Please edit documentation in R/utility_functions.R
 \name{plot_degree_distr}
 \alias{plot_degree_distr}
-\title{Plot a network's degree distribution}
+\title{Plots the degree distribution of a network in log-log scale.}
 \usage{
-plot_degree_distr(network)
+plot_degree_distr(network, bins = 100)
 }
 \arguments{
 \item{network}{igraph; The network whose degree distribution is to be plotted.}
+
+\item{bins}{integer; The number of bins.}
 }
 \value{
 A ggplot of the network's degree distribution.
@@ -19,7 +21,7 @@ Plots the degree distribution of a network in log-log scale.
 # Generate an artificial network with the PS model
 net <- ps_model(500, 6, 2.5, 0)
 # Plot its degree distribution
-plot_degree_distr(net$network)
+plot_degree_distr(net$network, bins = 50)
 
 }
 \author{

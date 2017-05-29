@@ -72,7 +72,7 @@ plot_hyperbolic_net <- function(network, nodes, node.colour = 1){
   
   return(ggplot(edge.df, aes_(~x1, ~y1)) + geom_segment(aes_(xend = ~x2, yend = ~y2), size = 0.1, colour="grey", alpha = 0.9) + 
     geom_point(data = nodes.cart, aes_(~x, ~y, colour = ~node.colour), size = 3) + 
-    scale_colour_gradientn(colours = rainbow(4)[4:1]) + theme_bw() + 
+    scale_colour_gradientn(colours = grDevices::rainbow(4)[4:1]) + theme_bw() + 
     theme(axis.title.y = element_blank(), axis.title.x = element_blank(), 
           axis.text.x = element_blank(), axis.text.y = element_blank(),  
           axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) + 
@@ -93,8 +93,8 @@ plot_hyperbolic_net <- function(network, nodes, node.colour = 1){
 #' @examples
 #' # Generate an artificial network with the PS model
 #' net <- ps_model(500, 6, 2.5, 0)
-#' # Plot the network nodes and colour them according to their radial coordinates
-#' plot_hyperbolic_nodes(net$polar, net$polar$r)
+#' # Plot the network nodes and colour them all in blue
+#' plot_hyperbolic_nodes(net$polar, "blue")
 #' 
 #' @export
 #' @import ggplot2
@@ -103,18 +103,33 @@ plot_hyperbolic_nodes <- function(nodes, node.colour){
   # Change node coordinates from polar to cartesian
   nodes.cart <- data.frame(x = nodes$r * cos(nodes$theta), y = nodes$r * sin(nodes$theta), node.colour = node.colour)
   
-  return(ggplot(nodes.cart, aes_(~x, ~y, colour = node.colour), size = 3) + geom_point() + scale_colour_manual(values = unique(node.colour)) + 
+  return(ggplot(nodes.cart, aes_(~x, ~y, colour = ~node.colour), size = 3) + geom_point() + scale_colour_manual(values = unique(node.colour)) + 
            theme_bw() + theme(axis.title.y = element_blank(), axis.title.x = element_blank(), 
                               axis.text.x = element_blank(), axis.text.y = element_blank(),  
                               axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) + 
     labs(title = "Network in the hyperbolic disc (nodes only)") + guides(colour = F))
 }
 
-#' Plot a network's degree distribution
+#' Generate a log10-linearly spaced sequence
 #' 
+#' Generates a sequence of \code{n} logarithmically spaced points between \code{s} and \code{e}, inclusive.
+#' 
+#' @param s numeric; The sequence starting point.
+#' @param e numeric; The sequence ending point.
+#' @param n integer; The number of points to be generated.
+#' 
+#' @return A numeric vector with \code{n} logarithmically spaced points between \code{s} and \code{e}.
+#' 
+log_seq <- function(s, e, n){
+  s <- log10(s)
+  e <- log10(e)
+  return(exp(log(10) * seq(s, e, length.out = n)))
+}
+
 #' Plots the degree distribution of a network in log-log scale.
 #' 
 #' @param network igraph; The network whose degree distribution is to be plotted.
+#' @param bins integer; The number of bins.
 #' 
 #' @return A ggplot of the network's degree distribution.
 #' 
@@ -124,25 +139,26 @@ plot_hyperbolic_nodes <- function(nodes, node.colour){
 #' # Generate an artificial network with the PS model
 #' net <- ps_model(500, 6, 2.5, 0)
 #' # Plot its degree distribution
-#' plot_degree_distr(net$network)
+#' plot_degree_distr(net$network, bins = 50)
 #' 
 #' @export
 #' @import igraph
 #' @import ggplot2
 #' @importFrom scales trans_breaks trans_format math_format
 #' 
-plot_degree_distr <- function(network){
-  # Calculate degree
+plot_degree_distr <- function(network, bins = 100){
+  # Calculate degrees for each node
   d <- degree(network, mode = "all")
-  dd <- degree_distribution(network, mode = "all", cumulative = FALSE)
-  degs <- 1:max(d)
-  prob <- dd[-1]
-  # Delete blank values
-  nonzero.position = which(prob != 0)
-  prob <- prob[nonzero.position]
-  degs <- degs[nonzero.position]
   
-  return(ggplot(data.frame(degs, prob), aes_(~degs, ~prob)) + geom_point() + 
+  # Bin the degrees using logarithmic spacing
+  breaks = log_seq(min(d), max(d), bins + 1)
+  cuts <- cut(d, breaks = breaks, labels = breaks[-length(breaks)], include.lowest = T)
+  stats <- data.frame(deg = as.numeric(levels(cuts)), 
+                       prob = as.numeric(table(cuts))/sum(as.numeric(table(cuts))), 
+                       stringsAsFactors = F)
+  stats <- stats[stats$prob > 0, ]
+  
+  return(ggplot(stats, aes_(~deg, ~prob)) + geom_point() + 
            scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), 
                          labels = scales::trans_format("log10", scales::math_format())) + 
            scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), 
@@ -183,7 +199,7 @@ compare_clustering_to_er <- function(network, epochs = 100, label = "Given netwo
   }
   df <- data.frame(net = factor(c(label, "ER graphs"), levels = c(label, "ER graphs"), ordered = T), 
                    clust = c(transitivity(network, type = "average"), mean(er.clust)),
-                   err = c(0, sd(er.clust)))
+                   err = c(0, stats::sd(er.clust)))
   dodge <- position_dodge(width = 0.9)
   return(ggplot(df, aes_(~net, ~clust)) + geom_bar(position = dodge, stat = "identity") + 
            geom_errorbar(aes(ymin = df$clust - df$err, ymax = df$clust + df$err), position = dodge, width = 0.25) + 

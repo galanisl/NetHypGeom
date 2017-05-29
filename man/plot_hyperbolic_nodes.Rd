@@ -20,8 +20,8 @@ Plots nodes of a network in hyperbolic space, given node polar coordinates and c
 \examples{
 # Generate an artificial network with the PS model
 net <- ps_model(500, 6, 2.5, 0)
-# Plot the network nodes and colour them according to their radial coordinates
-plot_hyperbolic_nodes(net$polar, net$polar$r)
+# Plot the network nodes and colour them all in blue
+plot_hyperbolic_nodes(net$polar, "blue")
 
 }
 \author{

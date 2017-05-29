@@ -35,7 +35,7 @@ ps_model <- function(N = 500, avg.k = 10, gma = 2, Temp = 0){
   # Initialise the node data frame and add the first node to the network
   nodes <- data.frame(r = vector("numeric", length = N), theta = vector("numeric", length = N))
   nodes$r[1] <- 0
-  nodes$theta[1] <- runif(1, min = 0, max = 2*pi)
+  nodes$theta[1] <- stats::runif(1, min = 0, max = 2*pi)
   
   # Initialise the network adjacency matrix
   net <- matrix(0, nrow = N, ncol = N)
@@ -52,7 +52,7 @@ ps_model <- function(N = 500, avg.k = 10, gma = 2, Temp = 0){
     
     # New node is added to the network and acquires polar coordinates
     nodes$r[t] <- 2*log(t)
-    nodes$theta[t] <- runif(1, min = 0, max = 2*pi)
+    nodes$theta[t] <- stats::runif(1, min = 0, max = 2*pi)
     
     # If beta = 1, popularity fading is not simulated
     if(beta == 1 & Temp == 0){
@@ -88,7 +88,7 @@ ps_model <- function(N = 500, avg.k = 10, gma = 2, Temp = 0){
           # Sample m nodes randomly that are not partners of the new node yet
           rnd_nodes <- sample(which(net[t, 1:(t - 1)] == 0), m - m_count)
           # Connect to these m nodes with probability p
-          connect.to <- runif(m - m_count) <= p[rnd_nodes]
+          connect.to <- stats::runif(m - m_count) <= p[rnd_nodes]
           net[t, rnd_nodes[connect.to]] <- 1
           m_count <- m_count + sum(connect.to)
         }
