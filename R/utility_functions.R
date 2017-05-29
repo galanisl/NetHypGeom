@@ -163,7 +163,8 @@ plot_degree_distr <- function(network, bins = 100){
                          labels = scales::trans_format("log10", scales::math_format())) + 
            scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), 
                          labels = scales::trans_format("log10", scales::math_format())) + 
-           annotation_logticks() + labs(x = "Node degree", y = "Probability") + theme_bw())
+           annotation_logticks() + labs(x = "Node degree", y = "Probability") + theme_bw() +
+           theme(panel.grid.minor = element_blank()))
 }
 
 #' Check if a given network is strongly clustered
