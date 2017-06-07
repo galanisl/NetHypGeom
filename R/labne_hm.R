@@ -86,8 +86,8 @@ labne_hm <- function(net, gma = NA, Temp = 0.1, k.speedup = 10, m.in = NA, L.in 
   
   # Ensure that the resulting data frame have the same node order as the input network
   nodes <- data.frame(id = V(params$net)$name)
-  cart <- merge(nodes, cart, by = "id")
-  polar <- merge(nodes, polar, by = "id")
+  cart <- merge(nodes, cart, by = "id", sort = FALSE)
+  polar <- merge(nodes, polar, by = "id", sort = FALSE)
   
   return(list(network = net, polar = polar, cartesian = cart))
 }
