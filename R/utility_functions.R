@@ -66,7 +66,7 @@ hyperbolic_dist <- function(ZI, ZJ){
 plot_hyperbolic_net <- function(network, nodes, node.colour = 1){
   
   # Change node coordinates from polar to cartesian
-  nodes.cart <- data.frame(x = nodes$r * cos(nodes$theta), y = nodes$r * sin(nodes$theta), theta = nodes$theta, node.colour = node.colour)
+  nodes.cart <- data.frame(x = nodes$r * cos(nodes$theta), y = nodes$r * sin(nodes$theta), theta = nodes$theta, node.colour = factor(node.colour))
   edges <- as_edgelist(network, names = F)
   edge.df <- data.frame(x1 = nodes.cart$x[edges[, 1]], y1 = nodes.cart$y[edges[, 1]], x2 = nodes.cart$x[edges[, 2]], y2 = nodes.cart$y[edges[, 2]])
   
@@ -101,7 +101,7 @@ plot_hyperbolic_net <- function(network, nodes, node.colour = 1){
 #' 
 plot_hyperbolic_nodes <- function(nodes, node.colour){
   # Change node coordinates from polar to cartesian
-  nodes.cart <- data.frame(x = nodes$r * cos(nodes$theta), y = nodes$r * sin(nodes$theta), node.colour = node.colour)
+  nodes.cart <- data.frame(x = nodes$r * cos(nodes$theta), y = nodes$r * sin(nodes$theta), node.colour = factor(node.colour))
   
   return(ggplot(nodes.cart, aes_(~x, ~y, colour = ~node.colour), size = 3) + geom_point() + scale_colour_manual(values = unique(node.colour)) + 
            theme_bw() + theme(axis.title.y = element_blank(), axis.title.x = element_blank(), 
