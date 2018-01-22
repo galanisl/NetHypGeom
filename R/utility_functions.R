@@ -71,7 +71,7 @@ plot_hyperbolic_net <- function(network, nodes, node.colour = 1){
   edge.df <- data.frame(x1 = nodes.cart$x[edges[, 1]], y1 = nodes.cart$y[edges[, 1]], x2 = nodes.cart$x[edges[, 2]], y2 = nodes.cart$y[edges[, 2]])
   
   return(ggplot(edge.df, aes_(~x1, ~y1)) + geom_segment(aes_(xend = ~x2, yend = ~y2), size = 0.1, colour="grey", alpha = 0.9) + 
-    geom_point(data = nodes.cart, aes_(~x, ~y, colour = ~node.colour), size = 3) + 
+    geom_point(data = nodes.cart, aes_(~x, ~y, colour = node.colour), size = 3) + 
     scale_colour_gradientn(colours = grDevices::rainbow(4)[4:1]) + theme_bw() + 
     theme(axis.title.y = element_blank(), axis.title.x = element_blank(), 
           axis.text.x = element_blank(), axis.text.y = element_blank(),  
@@ -103,7 +103,7 @@ plot_hyperbolic_nodes <- function(nodes, node.colour){
   # Change node coordinates from polar to cartesian
   nodes.cart <- data.frame(x = nodes$r * cos(nodes$theta), y = nodes$r * sin(nodes$theta), node.colour = factor(node.colour))
   
-  return(ggplot(nodes.cart, aes_(~x, ~y, colour = ~node.colour), size = 3) + geom_point() + scale_colour_manual(values = unique(node.colour)) + 
+  return(ggplot(nodes.cart, aes_(~x, ~y, colour = node.colour), size = 3) + geom_point() + scale_colour_manual(values = unique(node.colour)) + 
            theme_bw() + theme(axis.title.y = element_blank(), axis.title.x = element_blank(), 
                               axis.text.x = element_blank(), axis.text.y = element_blank(),  
                               axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) + 
