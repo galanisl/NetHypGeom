@@ -54,11 +54,11 @@ ps_model <- function(N = 500, avg.k = 10, gma = 2, Temp = 0){
     nodes$r[t] <- 2*log(t)
     nodes$theta[t] <- stats::runif(1, min = 0, max = 2*pi)
     
-    # If beta = 1, popularity fading is not simulated
+    # If beta == 1, popularity fading is not simulated
     if(beta == 1 & Temp == 0){
-      R.t <- 2*log(t) - 2*log(2*log(t)*(2*Temp)/(2*m*sin(Temp*pi)))
+      R.t <- 2*log(t) - 2*log((2*2*log(t))/(2*m*pi))
     }else if(beta == 1 & Temp > 0){
-      R.t <- 2*log(t) - 2*log(2*log(t)*(2)/(2*m*pi))
+      R.t <- 2*log(t) - 2*log(2*log(t)*(2*Temp)/(2*m*sin(Temp*pi)))
     }else if(beta < 1 & Temp == 0){
       R.t <- 2*log(t) - 2*log((2*(1 - exp(-0.5*(1 - beta)*2*log(t))))/(pi*m*(1 - beta))) #SI, Eq. 10
     }else{
