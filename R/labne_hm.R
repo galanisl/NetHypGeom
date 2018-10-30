@@ -126,7 +126,7 @@ check_lhm_parameters <- function(net, gma, Temp, k.speedup, m.in, L.in, w){
             Only the largest connected component will be considered and/or loops/parallel edges will be removed.")
           comps <- decompose(net)
           lcc_idx <- which.max(sapply(comps, vcount))
-          net <- simplify(comps[[lcc_ids]], edge.attr.comb = "min")
+          net <- simplify(comps[[lcc_idx]], edge.attr.comb = "min")
         }
       }
     }else if(!any(class(net) %in% c("igraph", "tbl_graph", "data.frame", "tbl_df", "tbl"))){
@@ -140,14 +140,14 @@ check_lhm_parameters <- function(net, gma, Temp, k.speedup, m.in, L.in, w){
             Only the largest connected component will be considered and/or loops/parallel edges will be removed.")
         comps <- decompose(net)
         lcc_idx <- which.max(sapply(comps, vcount))
-        net <- simplify(comps[[lcc_ids]], edge.attr.comb = "min")
+        net <- simplify(comps[[lcc_idx]], edge.attr.comb = "min")
       }
     }else if(any(class(net) %in% c("igraph", "tbl_graph")) & (!is_connected(net) | !is_simple(net))){
       warning("The specified igraph object represents a disconnected network, has parallel edges or some nodes have self-interactions. 
             Only the largest connected component will be considered and/or loops/parallel edges will be removed.")
       comps <- decompose(net)
       lcc_idx <- which.max(sapply(comps, vcount))
-      net <- simplify(comps[[lcc_ids]], edge.attr.comb = "min")
+      net <- simplify(comps[[lcc_idx]], edge.attr.comb = "min")
     }
     if(is.null(V(net)$name)){
       V(net)$name <- 1:vcount(net)
