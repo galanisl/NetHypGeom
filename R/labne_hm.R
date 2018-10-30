@@ -113,7 +113,7 @@ check_lhm_parameters <- function(net, gma, Temp, k.speedup, m.in, L.in, w){
   if(missing(net)){
     stop("You have to at least specify a network to embed. This can be an igraph object, a data frame or a tab-separated file.")
   }else{
-    if(class(net) == "character"){ #The network is a tab-separated file
+    if("character" %in% class(net)){ #The network is a tab-separated file
       net <- utils::read.table(net, header = F, sep = "\t", quote = "", stringsAsFactors = F)
       if(ncol(net) < 2){
         stop("The specified file must have at least two tab-separated columns.")
@@ -124,27 +124,30 @@ check_lhm_parameters <- function(net, gma, Temp, k.speedup, m.in, L.in, w){
         if(!is_connected(net) | !is_simple(net)){
           warning("The specified igraph object represents a disconnected network, has parallel edges or some nodes have self-interactions. 
             Only the largest connected component will be considered and/or loops/parallel edges will be removed.")
-          net <- decompose(net)[[1]]
-          net <- simplify(net, edge.attr.comb = "min")
+          comps <- decompose(net)
+          lcc_idx <- which.max(sapply(comps, vcount))
+          net <- simplify(comps[[lcc_ids]], edge.attr.comb = "min")
         }
       }
-    }else if(!any(class(net) %in% c("igraph", "data.frame", "tbl_df", "tbl_graph"))){
+    }else if(!any(class(net) %in% c("igraph", "tbl_graph", "data.frame", "tbl_df", "tbl"))){
       stop("The specified network is neither an igraph object nor a data frame or a valid tab-separated file.")
-    }else if(class(net) == "data.frame"){
+    }else if(any(class(net) %in% c("data.frame", "tbl_df", "tbl"))){
       #Consider the first two columns only and construct an igraph object
       net <- net[, 1:2]
       net <- graph_from_data_frame(net, directed = F)
       if(!is_connected(net) | !is_simple(net)){
         warning("The specified igraph object represents a disconnected network, has parallel edges or some nodes have self-interactions. 
             Only the largest connected component will be considered and/or loops/parallel edges will be removed.")
-        net <- decompose(net)[[1]]
-        net <- simplify(net, edge.attr.comb = "min")
+        comps <- decompose(net)
+        lcc_idx <- which.max(sapply(comps, vcount))
+        net <- simplify(comps[[lcc_ids]], edge.attr.comb = "min")
       }
-    }else if(class(net) == "igraph" & (!is_connected(net) | !is_simple(net))){
+    }else if(any(class(net) %in% c("igraph", "tbl_graph")) & (!is_connected(net) | !is_simple(net))){
       warning("The specified igraph object represents a disconnected network, has parallel edges or some nodes have self-interactions. 
             Only the largest connected component will be considered and/or loops/parallel edges will be removed.")
-      net <- decompose(net)[[1]]
-      net <- simplify(net, edge.attr.comb = "min")
+      comps <- decompose(net)
+      lcc_idx <- which.max(sapply(comps, vcount))
+      net <- simplify(comps[[lcc_ids]], edge.attr.comb = "min")
     }
     if(is.null(V(net)$name)){
       V(net)$name <- 1:vcount(net)
