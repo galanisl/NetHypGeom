@@ -128,7 +128,7 @@ check_lhm_parameters <- function(net, gma, Temp, k.speedup, m.in, L.in, w){
           net <- simplify(net, edge.attr.comb = "min")
         }
       }
-    }else if(class(net) != "igraph" & class(net) != "data.frame"){
+    }else if(!any(class(net) %in% c("igraph", "data.frame", "tbl_df", "tbl_graph"))){
       stop("The specified network is neither an igraph object nor a data frame or a valid tab-separated file.")
     }else if(class(net) == "data.frame"){
       #Consider the first two columns only and construct an igraph object
